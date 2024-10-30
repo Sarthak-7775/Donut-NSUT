@@ -1,73 +1,42 @@
 <?php
+// Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$servername = "localhost"; // Database server name
-$username = "root"; // Database username
-$password = ""; // Database password
-$dbname = "college_donations_db"; // Database name
+// Include the database connection file
+include 'db_connection.php';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if data is being posted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
     $nsut_id = $_POST['nsut_id'];
     $type_of_donation = $_POST['type_of_donation'];
     $quantity = $_POST['quantity'];
     $description = $_POST['description'];
 
-    
-    $check_donor = $conn->prepare("SELECT NSUT_ID FROM Donors WHERE NSUT_ID = ?");
-    $check_donor->bind_param("i", $nsut_id);
-    $check_donor->execute();
-    $check_donor->store_result();
-    
-    if ($check_donor->num_rows === 0) {
-        // If NSUT_ID does not exist in Donors table, insert it (modify as needed for actual donor data)
-        $insert_donor = $conn->prepare("INSERT INTO Donors (NSUT_ID, Name, Mobile_No, Designation, Description) VALUES (?, 'John Doe', '1234567890', 'Student', 'Sample donor')");
-        $insert_donor->bind_param("i", $nsut_id);
-        $insert_donor->execute();
-    }
+    // Prepare the SQL statement to insert donation data
+    $stmt = $conn->prepare("INSERT INTO donations (NSUT_ID, Type_Of_Donation) VALUES (?, ?)");
+    $stmt->bind_param("ss", $nsut_id, $type_of_donation);
 
-    // Prepare and bind
-    // Step 1: Insert into Donations table
-    $sql_donation = "INSERT INTO Donations (NSUT_ID, Type_Of_Donation) VALUES (?, ?)";
-    $stmt_donation = $conn->prepare($sql_donation);
-    $stmt_donation->bind_param("is", $nsut_id, $type_of_donation);
-    $stmt_donation->execute();
-
-    // Step 2: Retrieve the last inserted Donation_ID
-    $donation_id = $conn->insert_id; // This is the Donation_ID generated in Donations
-
-    // Step 3: Insert into Donation_Details using the retrieved Donation_ID
-    $sql_details = "INSERT INTO Donation_Details (Donation_ID, NSUT_ID, Donation_Date, Society_ID, Type_Of_Donation, Quantity, Description) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt_details = $conn->prepare($sql_details);
-    $stmt_details->bind_param("iisisis", $donation_id, $nsut_id, $donation_date, $society_id, $type_of_donation, $quantity, $description);
-    $stmt_details->execute();
-
-
-    // Execute the statement
+    // Execute the query
     if ($stmt->execute()) {
-        // Log the donation
-        $logEntry = "NSUT ID: $nsut_id, Type_Of_Donation: $type_of_donation, Quantity: $quantity, Description: $description\n";
-        if (file_put_contents('donation_log.txt', $logEntry, FILE_APPEND) !== false) {
-            echo "Donation recorded successfully!";
-            // Log the action of writing to the log file
-            error_log("Log entry added: $logEntry", 3, 'donation_log.txt'); // Log the entry to the log file
+        // Get the last inserted Donation_ID
+        $donation_id = $conn->insert_id;
+
+        // Prepare to insert into Donation_Details
+        $details_stmt = $conn->prepare("INSERT INTO donation_details (Donation_ID, NSUT_ID, Donation_Date, Donation_Type, Quantity, Description) VALUES (?, ?, NOW(), ?, ?, ?)");
+        $details_stmt->bind_param("issis", $donation_id, $nsut_id, $type_of_donation, $quantity, $description);
+
+        // Execute details query
+        if ($details_stmt->execute()) {
+            // Log the donation
+            file_put_contents('donation_log.txt', "NSUT ID: $nsut_id, Donation Type: $type_of_donation, Quantity: $quantity, Description: $description\n", FILE_APPEND);
+            echo "<script>document.getElementById('feedback').textContent = 'Thank you for your donation!';</script>";
         } else {
-            echo "Error writing to donation log file.";
-            error_log("Failed to write to log file for NSUT ID: $nsut_id", 3, 'donation_log.txt'); // Log the error
+            echo "<script>document.getElementById('feedback').textContent = 'Error saving donation details!';</script>";
         }
+        $details_stmt->close();
     } else {
-        echo "Error: " . $stmt->error; // This will show any errors with the SQL execution
+        echo "<script>document.getElementById('feedback').textContent = 'Error saving donation!';</script>";
     }
 
     $stmt->close();
@@ -75,3 +44,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Form</title>
+    <link rel="stylesheet" href="style.css"> <!-- Add your CSS file here -->
+    <script src="script.js" defer></script> <!-- Add your JS file here -->
+</head>
+<body style="background-color: black; color: white;">
+    <h1>Donate</h1>
+    <form id="donationForm" method="POST" action="">
+        <label for="nsut_id">NSUT ID:</label>
+        <input type="text" id="nsut_id" name="nsut_id" required>
+
+        <label for="type_of_donation">Type of Donation:</label>
+        <select id="type_of_donation" name="type_of_donation" required>
+            <option value="books">Books</option>
+            <option value="clothes">Clothes</option>
+            <option value="money">Money</option>
+        </select>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <button type="submit">Donate</button>
+    </form>
+
+    <div id="feedback"></div> <!-- Feedback message will be displayed here -->
+</body>
+</html>
