@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make a Donation - College Donation System</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
 <body>
     <header>
@@ -20,57 +20,297 @@
             <button class="nav-toggle" id="nav-toggle">☰</button>
         </nav>
     </header>
+
+    <!-- Hero Section with Inspiring Background -->
     <section class="donate-hero">
-        <div class="hero-content">
-            <h1>Make a Difference Today</h1>
-            <p>All students and faculty are welcome to contribute and support our community.</p>
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1><span class="highlight">Share.</span> <span class="highlight">Care.</span> <span class="highlight">Transform Lives.</span></h1>
+                <p class="hero-text">Your generosity creates ripples of positive change in our college community</p>
+                <div class="impact-stats">
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Students Helped</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">1200+</span>
+                        <span class="stat-label">Items Donated</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">25+</span>
+                        <span class="stat-label">Active Societies</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-    <main class="donate-form-section">
-        <form id="donationForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" required>
+
+    <main class="donate-main">
+        <div class="container">
+            <!-- Progress Indicator -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Item Details</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Your Information</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Confirmation</div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" required>
+
+            <!-- Donation Form -->
+            <div class="donation-form-container">
+                <form id="donationForm" class="donation-form">
+                    <!-- Step 1: Item Details -->
+                    <div class="form-step active" id="step1">
+                        <h2><i class="fas fa-gift"></i> What would you like to donate?</h2>
+                        
+                        <div class="donation-categories">
+                            <div class="category-grid">
+                                <div class="category-card" data-category="books">
+                                    <i class="fas fa-book"></i>
+                                    <h3>Books</h3>
+                                    <p>Textbooks, novels, reference books</p>
+                                </div>
+                                <div class="category-card" data-category="clothes">
+                                    <i class="fas fa-tshirt"></i>
+                                    <h3>Clothing</h3>
+                                    <p>Clean clothes in good condition</p>
+                                </div>
+                                <div class="category-card" data-category="electronics">
+                                    <i class="fas fa-laptop"></i>
+                                    <h3>Electronics</h3>
+                                    <p>Laptops, phones, calculators</p>
+                                </div>
+                                <div class="category-card" data-category="stationery">
+                                    <i class="fas fa-pencil-alt"></i>
+                                    <h3>Stationery</h3>
+                                    <p>Pens, notebooks, art supplies</p>
+                                </div>
+                                <div class="category-card" data-category="food">
+                                    <i class="fas fa-apple-alt"></i>
+                                    <h3>Food Items</h3>
+                                    <p>Packaged food, dry rations</p>
+                                </div>
+                                <div class="category-card" data-category="other">
+                                    <i class="fas fa-plus"></i>
+                                    <h3>Other</h3>
+                                    <p>Sports equipment, furniture, etc.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" id="type_of_donation" name="type_of_donation" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="item_name"><i class="fas fa-tag"></i> Item Name *</label>
+                                <input type="text" id="item_name" name="item_name" placeholder="e.g., Engineering Mathematics Textbook" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity"><i class="fas fa-sort-numeric-up"></i> Quantity *</label>
+                                <input type="number" id="quantity" name="quantity" min="1" placeholder="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="condition"><i class="fas fa-star"></i> Condition *</label>
+                            <select id="condition" name="condition" required>
+                                <option value="">Select condition</option>
+                                <option value="new">New</option>
+                                <option value="like-new">Like New</option>
+                                <option value="good">Good</option>
+                                <option value="fair">Fair</option>
+                                <option value="poor">Poor but usable</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description"><i class="fas fa-align-left"></i> Description *</label>
+                            <textarea id="description" name="description" rows="4" placeholder="Provide detailed description of the item(s) you're donating..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image_upload"><i class="fas fa-camera"></i> Upload Image (Optional)</label>
+                            <div class="image-upload-container">
+                                <input type="file" id="image_upload" name="image_upload" accept="image/*" multiple>
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Click to upload or drag and drop images here</p>
+                                    <small>Supported formats: JPG, PNG, GIF (Max 5MB per image)</small>
+                                </div>
+                                <div id="image_preview" class="image-preview"></div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-next" onclick="nextStep()">Next Step <i class="fas fa-arrow-right"></i></button>
+                    </div>
+
+                    <!-- Step 2: Personal Information -->
+                    <div class="form-step" id="step2">
+                        <h2><i class="fas fa-user"></i> Tell us about yourself</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="donor_name"><i class="fas fa-user"></i> Full Name *</label>
+                                <input type="text" id="donor_name" name="donor_name" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nsut_id"><i class="fas fa-id-card"></i> NSUT ID / Employee ID *</label>
+                                <input type="text" id="nsut_id" name="nsut_id" placeholder="e.g., 2022UCS1001 or EMP001" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="donor_type"><i class="fas fa-users"></i> I am a *</label>
+                            <select id="donor_type" name="donor_type" required>
+                                <option value="">Select your role</option>
+                                <option value="student">Student</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="staff">Staff</option>
+                                <option value="alumni">Alumni</option>
+                                <option value="visitor">Visitor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Email Address *</label>
+                                <input type="email" id="email" name="email" placeholder="your.email@nsut.ac.in" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="fas fa-phone"></i> Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+91-9876543210" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="society"><i class="fas fa-sitemap"></i> Associated Society/Department (Optional)</label>
+                            <select id="society" name="society">
+                                <option value="">Select society (optional)</option>
+                                <option value="nss">NSS</option>
+                                <option value="prayas">Prayas</option>
+                                <option value="rotaract">Rotaract</option>
+                                <option value="enactus">Enactus</option>
+                                <option value="ieee">IEEE Student Branch</option>
+                                <option value="cse">CSE Department</option>
+                                <option value="ece">ECE Department</option>
+                                <option value="me">ME Department</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" class="btn-next" onclick="nextStep()">Review Donation <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Confirmation -->
+                    <div class="form-step" id="step3">
+                        <h2><i class="fas fa-check-circle"></i> Review Your Donation</h2>
+                        
+                        <div class="donation-summary">
+                            <div class="summary-card">
+                                <h3>Donation Details</h3>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <strong>Item:</strong> <span id="summary_item"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <strong>Category:</strong> <span id="summary_category"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <strong>Quantity:</strong> <span id="summary_quantity"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <strong>Condition:</strong> <span id="summary_condition"></span>
+                                    </div>
+                                </div>
+                                <div class="summary-description">
+                                    <strong>Description:</strong>
+                                    <p id="summary_description"></p>
+                                </div>
+                            </div>
+
+                            <div class="summary-card">
+                                <h3>Contact Information</h3>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <strong>Name:</strong> <span id="summary_name"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <strong>ID:</strong> <span id="summary_id"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <strong>Role:</strong> <span id="summary_role"></span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <strong>Email:</strong> <span id="summary_email"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="terms-container">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <span class="checkmark"></span>
+                                I confirm that the donated items are in the specified condition and I agree to the <a href="#" class="terms-link">Terms and Conditions</a>
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="submit" class="btn-submit"><i class="fas fa-heart"></i> Complete Donation</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="feedback" class="feedback"></div>
             </div>
-            <div class="form-group">
-                <label for="institution_id">Institution ID (optional):</label>
-                <input type="text" id="institution_id" name="institution_id">
+
+            <!-- Impact Section -->
+            <div class="impact-section">
+                <h2>Your Impact Matters</h2>
+                <div class="impact-cards">
+                    <div class="impact-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Education Support</h3>
+                        <p>Your donated books and stationery help fellow students continue their education without financial burden.</p>
+                    </div>
+                    <div class="impact-card">
+                        <i class="fas fa-hands-helping"></i>
+                        <h3>Community Building</h3>
+                        <p>Every donation strengthens our college community and creates lasting bonds between students.</p>
+                    </div>
+                    <div class="impact-card">
+                        <i class="fas fa-recycle"></i>
+                        <h3>Sustainability</h3>
+                        <p>Reduce waste and promote sustainable living by giving items a second life.</p>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="type_of_donation">Type of Donation:</label>
-                <select id="type_of_donation" name="type_of_donation" required>
-                    <option value="books">Books</option>
-                    <option value="clothes">Clothes</option>
-                    <option value="money">Money</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" min="1" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="image">Upload an Image (optional):</label>
-                <input type="file" id="image" name="image" accept="image/*">
-            </div>
-            <button type="submit" class="cta-button emphasize">Donate Now</button>
-        </form>
-        <div id="feedback"></div>
-        <div id="image-preview" class="image-preview"></div>
+        </div>
     </main>
+
     <footer>
         <div class="footer-content">
             <p>&copy; 2024 College Donation System. All rights reserved.</p>
             <p><a href="feedback.html">Feedback</a> | <a href="contact.html">Contact Us</a></p>
         </div>
     </footer>
+
+    <script src="script.js"></script>
+    <script src="donate.js"></script>
 </body>
 </html>

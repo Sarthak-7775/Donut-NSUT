@@ -1,61 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>View Donations - College Donation System</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Donations - College Donation System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <img src="../items/NSUT_logo.webp" alt="NSUT Logo" class="logo large-logo" />
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="donate.html">Donate</a></li>
-        <li><a href="view_donations.html" class="active">View Donations</a></li>
-        <li><a href="events.html">Events</a></li>
-      </ul>
-      <button class="nav-toggle" id="nav-toggle">☰</button>
-    </nav>
-  </header>
-  <main class="donations-view" style="padding: 6rem 2rem 2rem;">
-    <h1 class="highlight">Recent Donations</h1>
-    <table class="donations-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>NSUT ID</th>
-          <th>Type</th>
-          <th>Quantity</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2025-08-07</td>
-          <td>NSUT1234</td>
-          <td>Books</td>
-          <td>3</td>
-          <td>Math & Physics textbooks</td>
-        </tr>
-        <tr>
-          <td>2025-08-06</td>
-          <td>NSUT5678</td>
-          <td>Clothes</td>
-          <td>5</td>
-          <td>Winter jackets</td>
-        </tr>
-        <!-- More rows will load here -->
-      </tbody>
-    </table>
-  </main>
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2024 College Donation System. All rights reserved.</p>
-      <p><a href="feedback.html">Feedback</a> | <a href="contact.html">Contact Us</a></p>
+    <header>
+        <nav class="navbar">
+            <img src="../items/NSUT_logo.webp" alt="NSUT Logo" class="logo large-logo">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="donate.html">Donate</a></li>
+                <li><a href="view_donations.html" class="active">View Donations</a></li>
+                <li><a href="events.html">Events</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">☰</button>
+        </nav>
+    </header>
+
+    <section class="page-hero donations-hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1><span class="highlight">Available Donations</span></h1>
+                <p class="hero-text">Find items donated by your fellow students and faculty</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="donations-main">
+        <div class="container">
+            <!-- Search and Filters -->
+            <div class="donations-controls">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="donationSearch" placeholder="Search by item name, description, or donor...">
+                        <button type="button" id="clearSearch" class="clear-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="categoryFilter"><i class="fas fa-tags"></i> Category:</label>
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="Books">Books</option>
+                            <option value="Clothes">Clothes</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Stationery">Stationery</option>
+                            <option value="Food">Food Items</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="conditionFilter"><i class="fas fa-star"></i> Condition:</label>
+                        <select id="conditionFilter">
+                            <option value="">All Conditions</option>
+                            <option value="New">New</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="societyFilterDonations"><i class="fas fa-users"></i> Society:</label>
+                        <select id="societyFilterDonations">
+                            <option value="">All Societies</option>
+                            <option value="NSS">NSS</option>
+                            <option value="Prayas">Prayas</option>
+                            <option value="Rotaract">Rotaract</option>
+                            <option value="IEEE Student Branch">IEEE Student Branch</option>
+                            <option value="Technical Society">Technical Society</option>
+                            <option value="Fine Arts Club">Fine Arts Club</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="statusFilterDonations"><i class="fas fa-check-circle"></i> Status:</label>
+                        <select id="statusFilterDonations">
+                            <option value="">All Items</option>
+                            <option value="Available">Available</option>
+                            <option value="Claimed">Claimed</option>
+                            <option value="Reserved">Reserved</option>
+                        </select>
+                    </div>
+
+                    <button type="button" id="resetFilters" class="reset-filters-btn">
+                        <i class="fas fa-undo"></i> Reset Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- View Toggle -->
+            <div class="view-toggle">
+                <button type="button" class="view-btn active" data-view="grid">
+                    <i class="fas fa-th"></i> Grid
+                </button>
+                <button type="button" class="view-btn" data-view="list">
+                    <i class="fas fa-list"></i> List
+                </button>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="donations-stats">
+                <div class="stat-card">
+                    <i class="fas fa-gift"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="availableCount">0</span>
+                        <span class="stat-label">Available Items</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="donorsCount">0</span>
+                        <span class="stat-label">Active Donors</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-handshake"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="claimedCount">0</span>
+                        <span class="stat-label">Items Claimed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Donations Grid/List -->
+            <div class="donations-container">
+                <div class="donations-grid" id="donationsGrid">
+                    <!-- Donations will be populated by JavaScript -->
+                </div>
+
+                <div class="donations-list" id="donationsList" style="display: none;">
+                    <!-- List view will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No donations found</h3>
+                <p>Try adjusting your search criteria or filters</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Donation Details Modal -->
+    <div class="modal" id="donationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalItemName"></h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="donation-details">
+                    <div class="donation-image">
+                        <img id="modalImage" src="" alt="Donation item" onerror="this.src='../items/placeholder.jpg'">
+                    </div>
+                    <div class="donation-info">
+                        <div class="detail-group">
+                            <i class="fas fa-tag"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Category:</span>
+                                <span class="detail-value" id="modalCategory"></span>
+                            </div>
+                        </div>
+                        <div class="detail-group">
+                            <i class="fas fa-sort-numeric-up"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Quantity:</span>
+                                <span class="detail-value" id="modalQuantity"></span>
+                            </div>
+                        </div>
+                        <div class="detail-group">
+                            <i class="fas fa-star"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Condition:</span>
+                                <span class="detail-value condition-badge" id="modalCondition"></span>
+                            </div>
+                        </div>
+                        <div class="detail-group">
+                            <i class="fas fa-user"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Donated by:</span>
+                                <span class="detail-value" id="modalDonor"></span>
+                            </div>
+                        </div>
+                        <div class="detail-group">
+                            <i class="fas fa-calendar"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Date donated:</span>
+                                <span class="detail-value" id="modalDate"></span>
+                            </div>
+                        </div>
+                        <div class="detail-group">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value" id="modalLocation"></span>
+                            </div>
+                        </div>
+                        <div class="detail-group full-width">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="detail-info">
+                                <span class="detail-label">Description:</span>
+                                <p class="detail-description" id="modalDescription"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-primary" id="claimBtn">
+                        <i class="fas fa-hand-holding"></i> Claim This Item
+                    </button>
+                    <button type="button" class="btn-secondary" id="contactBtn">
+                        <i class="fas fa-envelope"></i> Contact Donor
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </footer>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 College Donation System. All rights reserved.</p>
+            <p><a href="feedback.html">Feedback</a> | <a href="contact.html">Contact Us</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="view_donations.js"></script>
 </body>
 </html>

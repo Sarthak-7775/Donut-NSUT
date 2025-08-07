@@ -3,41 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events - College Donation System</title>
+    <title>Donation Events - College Donation System</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>Upcoming Events</h1>
+        <nav class="navbar">
+            <img src="../items/NSUT_logo.webp" alt="NSUT Logo" class="logo large-logo">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="donate.html">Donate</a></li>
+                <li><a href="view_donations.html">View Donations</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">☰</button>
+        </nav>
     </header>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="donate.html">Make a Donation</a>
-        <a href="view_donations.html">View Donations</a>
-        <a href="events.html">Events</a>
-    </nav>
-    <main id="content">
-        <section id="events-list">
-            <article class="event">
-                <h2>Book Drive</h2>
-                <p>Date: 2024-09-15 | Venue: Library Hall</p>
-                <p>Donate your gently used textbooks to fellow students.</p>
-            </article>
-            <article class="event">
-                <h2>Clothing Collection</h2>
-                <p>Date: 2024-10-01 | Venue: Student Center</p>
-                <p>Bring warm clothes for those in need this winter.</p>
-            </article>
-            <article class="event">
-                <h2>Monetary Fundraiser</h2>
-                <p>Date: 2024-11-10 | Venue: Auditorium</p>
-                <p>Join us for a fundraiser to support emergency student relief.</p>
-            </article>
-        </section>
+
+    <section class="page-hero events-hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1><span class="highlight">Donation Events</span></h1>
+                <p class="hero-text">Join our organized drives and make a collective impact</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="events-main">
+        <div class="container">
+            <!-- Search and Filters -->
+            <div class="events-controls">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="eventSearch" placeholder="Search events by name, society, or type...">
+                        <button type="button" id="clearSearch" class="clear-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="societyFilter"><i class="fas fa-users"></i> Society:</label>
+                        <select id="societyFilter">
+                            <option value="">All Societies</option>
+                            <option value="NSS NSUT">NSS NSUT</option>
+                            <option value="Prayas NSUT">Prayas NSUT</option>
+                            <option value="Rotaract NSUT">Rotaract NSUT</option>
+                            <option value="Enactus NSUT">Enactus NSUT</option>
+                            <option value="Student Welfare Committee">Student Welfare Committee</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="typeFilter"><i class="fas fa-tag"></i> Event Type:</label>
+                        <select id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="Books Donation">Books Donation</option>
+                            <option value="Clothes Donation">Clothes Donation</option>
+                            <option value="Food Donation">Food Donation</option>
+                            <option value="Electronics Donation">Electronics Donation</option>
+                            <option value="Stationery Donation">Stationery Donation</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="statusFilter"><i class="fas fa-calendar"></i> Status:</label>
+                        <select id="statusFilter">
+                            <option value="">All Events</option>
+                            <option value="Upcoming">Upcoming</option>
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <button type="button" id="resetFilters" class="reset-filters-btn">
+                        <i class="fas fa-undo"></i> Reset Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="events-stats">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="upcomingCount">0</span>
+                        <span class="stat-label">Upcoming Events</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="societyCount">0</span>
+                        <span class="stat-label">Active Societies</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-gift"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="totalEvents">0</span>
+                        <span class="stat-label">Total Events</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Grid -->
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No events found</h3>
+                <p>Try adjusting your search criteria or filters</p>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container">
+                <button type="button" id="loadMoreBtn" class="load-more-btn">
+                    <i class="fas fa-plus"></i> Load More Events
+                </button>
+            </div>
+        </div>
     </main>
+
+    <!-- Event Details Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalEventName"></h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="event-details">
+                    <div class="detail-group">
+                        <i class="fas fa-users"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Organized by:</span>
+                            <span class="detail-value" id="modalSociety"></span>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <i class="fas fa-calendar"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Date & Time:</span>
+                            <span class="detail-value" id="modalDateTime"></span>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Venue:</span>
+                            <span class="detail-value" id="modalVenue"></span>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <i class="fas fa-bullseye"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Target Group:</span>
+                            <span class="detail-value" id="modalTarget"></span>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Description:</span>
+                            <p class="detail-description" id="modalDescription"></p>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <i class="fas fa-list"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Requirements:</span>
+                            <p class="detail-description" id="modalRequirements"></p>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-user"></i>
+                                <span id="modalContact"></span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <a href="#" id="modalEmail"></a>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <a href="#" id="modalPhone"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-primary" id="participateBtn">
+                        <i class="fas fa-hand-holding-heart"></i> I Want to Participate
+                    </button>
+                    <button type="button" class="btn-secondary" id="shareBtn">
+                        <i class="fas fa-share"></i> Share Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
-        <p>&copy; 2024 College Donation System. All rights reserved.</p>
+        <div class="footer-content">
+            <p>&copy; 2024 College Donation System. All rights reserved.</p>
+            <p><a href="feedback.html">Feedback</a> | <a href="contact.html">Contact Us</a></p>
+        </div>
     </footer>
+
+    <script src="script.js"></script>
+    <script src="events.js"></script>
 </body>
 </html>
