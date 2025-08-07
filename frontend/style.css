@@ -57,7 +57,7 @@ html { scroll-behavior: smooth; }
 }
 
 .hero {
-    background: url('../items/nsut_img1.webp') center/cover no-repeat fixed;
+    background: url('./items/nsut_img1.webp') center/cover no-repeat fixed;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -265,7 +265,7 @@ button:hover {
 /* Hero Sections for Individual Pages */
 .donate-hero, .page-hero {
     background: linear-gradient(135deg, rgba(230, 184, 0, 0.9), rgba(255, 204, 0, 0.7)), 
-                url('../items/donation_bg.jpg') center/cover no-repeat fixed;
+                url('./items/donation_bg.jpg') center/cover no-repeat fixed;
     height: 60vh;
     display: flex;
     align-items: center;
@@ -277,12 +277,12 @@ button:hover {
 
 .events-hero {
     background: linear-gradient(135deg, rgba(102, 51, 153, 0.9), rgba(153, 102, 255, 0.7)), 
-                url('../items/events_bg.jpg') center/cover no-repeat fixed;
+                url('./items/events_bg.jpg') center/cover no-repeat fixed;
 }
 
 .donations-hero {
     background: linear-gradient(135deg, rgba(34, 139, 34, 0.9), rgba(50, 205, 50, 0.7)), 
-                url('../items/donations_bg.jpg') center/cover no-repeat fixed;
+                url('./items/donations_bg.jpg') center/cover no-repeat fixed;
 }
 
 .hero-overlay {
