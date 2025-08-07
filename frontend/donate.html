@@ -3,32 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donation Form</title>
-    <link rel="stylesheet" href="style.css"> <!-- Add your CSS file here -->
-    <script src="script.js" defer></script> <!-- Add your JS file here -->
+    <title>Make a Donation - College Donation System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
-<body style="background-color: black; color: white;">
-    <h1>Donate</h1>
-    <form id="donationForm">
-        <label for="nsut_id">NSUT ID:</label>
-        <input type="text" id="nsut_id" name="nsut_id" required>
-
-        <label for="type_of_donation">Type of Donation:</label>
-        <select id="type_of_donation" name="type_of_donation" required>
-            <option value="books">Books</option>
-            <option value="clothes">Clothes</option>
-            <option value="money">Money</option>
-        </select>
-
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" required>
-
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
-
-        <button type="submit">Donate</button>
-    </form>
-
-    <div id="feedback"></div> <!-- Feedback message will be displayed here -->
+<body>
+    <header>
+        <nav class="navbar">
+            <img src="../items/NSUT_logo.webp" alt="NSUT Logo" class="logo large-logo">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="donate.html" class="active">Donate</a></li>
+                <li><a href="view_donations.html">View Donations</a></li>
+                <li><a href="events.html">Events</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">☰</button>
+        </nav>
+    </header>
+    <section class="donate-hero">
+        <div class="hero-content">
+            <h1>Make a Difference Today</h1>
+            <p>All students and faculty are welcome to contribute and support our community.</p>
+        </div>
+    </section>
+    <main class="donate-form-section">
+        <form id="donationForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="institution_id">Institution ID (optional):</label>
+                <input type="text" id="institution_id" name="institution_id">
+            </div>
+            <div class="form-group">
+                <label for="type_of_donation">Type of Donation:</label>
+                <select id="type_of_donation" name="type_of_donation" required>
+                    <option value="books">Books</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="money">Money</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Upload an Image (optional):</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+            <button type="submit" class="cta-button emphasize">Donate Now</button>
+        </form>
+        <div id="feedback"></div>
+        <div id="image-preview" class="image-preview"></div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 College Donation System. All rights reserved.</p>
+            <p><a href="feedback.html">Feedback</a> | <a href="contact.html">Contact Us</a></p>
+        </div>
+    </footer>
 </body>
 </html>
